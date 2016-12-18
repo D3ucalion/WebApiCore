@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using WebApiCore.Models;
 using WebApiCore.Models.TodoApi.Models;
 
@@ -20,15 +22,20 @@ namespace WebApiCore.Controllers
         public ITodoRepository TodoItems { get; set; }
 
         [HttpGet]
-        public IEnumerable<TodoItem> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return TodoItems.GetAll();
+            var item = await TodoItems.GetAll();
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return new ObjectResult(item);
         }
 
         [HttpGet("{id}", Name = "GetTodo")]
-        public IActionResult GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
-            var item = TodoItems.Find(id);
+            var item = await TodoItems.Find(id);
             if (item == null)
             {
                 return NotFound();
@@ -79,16 +86,16 @@ namespace WebApiCore.Controllers
                 return NotFound();
             }
 
-            item.Key = todo.Key;
+            //item.Key = todo.Key;
 
             TodoItems.Update(item);
             return new NoContentResult();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var todo = TodoItems.Find(id);
+            var todo = await TodoItems.Find(id);
             if (todo == null)
             {
                 return NotFound();

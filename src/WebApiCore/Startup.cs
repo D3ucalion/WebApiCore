@@ -40,6 +40,7 @@ namespace WebApiCore
 
             services.AddMvc();
             services.AddSingleton<ITodoRepository, TodoRepository>();
+            services.AddSingleton<IHygroRepository, HygroRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

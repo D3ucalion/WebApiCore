@@ -7,17 +7,21 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace WebApiCore.Models
 {
-    namespace TodoApi.Models
+    namespace HygroApi.Models
     {
-        public class TodoItem
+        public class HygroItem
         {
             public ObjectId Id { get; set; }
             [BsonElement("Key")]
             public string Key { get; set; }
-            [BsonElement("Name")]
+            [BsonElement("Location")]
             public string Name { get; set; }
-            [BsonElement("IsComplete")]
-            public bool IsComplete { get; set; }
+            [BsonElement("TimeStamp")]
+            public DateTime TimeStamp { get; set; }
+            [BsonElement("Temp")]
+            public float Temp { get; set; }
+            [BsonElement("Humidity")]
+            public float Humidity { get; set; }
         }
     }
 }
